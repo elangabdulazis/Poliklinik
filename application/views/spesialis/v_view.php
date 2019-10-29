@@ -1,0 +1,274 @@
+
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Dashboard</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard v1</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+      
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="card">
+              <div class="card-header" style="background-color: aqua">
+                <h3 class="card-title">Data Spesialis</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse" style="color: white">
+                    <i class="fas fa-minus"></i></button>
+                  
+                </div>
+              </div>
+
+              <div class="card-body">
+
+              	<button type="button" onclick="submit('tambah')" class="btn bg-gradient-danger mb-3" data-toggle="modal" data-target=".bd-example-modal-xl">Tambah Data</button>
+              	<button type="button" class="btn bg-gradient-success mb-3">Export Excell</button>
+              	<button type="button" class="btn bg-gradient-primary mb-3">Export Word</button>
+               <!--  <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">Extra large modal</button> -->
+              
+
+
+                <table id="tabel_id" class="table table-bordered mt-3" >
+        				  <thead>
+        				    <tr>
+        				      <th scope="col">No</th>
+        				      <th scope="col">Spesialis</th>
+        				      <th scope="col">Tarif</th>
+        				      <th scope="col">Keterangan</th>
+                      <th scope="col">Aksi</th>
+                  
+        				    </tr>
+        				  </thead>
+        				  <tbody id="target">
+                    
+                  </tbody>
+        			</table>
+            </div>
+
+            <!-- Modal -->
+            
+              <!-- /.card-footer-->
+            </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+  </div>
+
+
+
+
+
+  <!-- modal -->
+
+
+  <div class="modal fade bd-example-modal-xl" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Tambah Data Spesialis</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+       <div class="form-group">
+        <input type="hidden" class="form-control" id="kd_spesialis" name="kd_spesialis">
+      </div>
+      <div class="form-group">
+        <label for="namaspesialis">NAMA SPESIALIS</label>
+        <input type="text" name="namaspesialis"  class="form-control" id="namaspesialis" placeholder="Nama Spesialis">
+      </div>
+    <div class="form-group">
+        <label for="tarif">TARIF</label>
+        <input type="text" class="form-control" id="tarif" name="tarif" placeholder="Tarif">
+      </div>
+      <div class="form-group">
+        <label for="keterangan">KETERANGAN</label>
+        <textarea class="form-control" id="keterangan" name="keterangan" rows="3"></textarea>
+      </div>
+     
+   
+       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       <button type="submit" onclick="save()" id="btn_simpan" class="btn btn-primary">Simpan</button>
+       <button type="submit" onclick="ubah()" id="btn_ubah" class="btn btn-primary">ubah</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+  <!-- /.content-wrapper -->
+ <script>
+
+    ambilData();
+
+    function ambilData(){
+      $.ajax({
+        type     : 'POST',
+        url      : '<?= base_url()."spesialis/getdata"?>',
+        dataType : 'json',
+        success  : function(data){
+            console.log(data);
+            var baris='';
+            var no=1;
+            for(var i=0;i<data.length;i++){
+             
+              baris += '<tr>'+
+                          '<td>'+no+'</td>'+
+                          '<td>'+data[i].nama+'</td>'+
+                          '<td>'+data[i].tarif+'</td>'+
+                          '<td>'+data[i].keterangan+'</td>'+
+                          '<td><button type="button" class="btn btn-primary mb-3" onclick="submit('+data[i].kd_spesialis+')" data-toggle="modal" data-target=".bd-example-modal-xl">Edit</button><button onclick="hapus('+data[i].kd_spesialis+')" class="btn btn-danger mb-3">Hapus</button></td>'+
+                       '</tr>';
+               no++;
+            }
+            $('#target').html(baris);
+           
+        }
+      });
+    }
+
+    function submit(x){
+
+      if(x=='tambah'){
+        $('#btn_simpan').show();
+        $('#btn_ubah').hide();
+      }else{
+        $('#btn_simpan').hide();
+        $('#btn_ubah').show();
+
+        $.ajax({
+          type     : 'POST',
+          data     : 'kd_spesialis='+x,
+          url      : '<?= base_url()."spesialis/edit"?>',
+          dataType : 'json',
+          success  : function(hasil){
+            $("[name='kd_spesialis']").val(hasil[0].kd_spesialis);
+            $("[name='namaspesialis']").val(hasil[0].nama);
+            $("[name='tarif']").val(hasil[0].tarif);
+            $("[name='keterangan']").val(hasil[0].keterangan);
+          }
+        });
+      }
+
+    }
+
+    function ubah(){
+      var kd_spesialis   = $("[name='kd_spesialis']").val();
+      var namaspesialis  = $("[name='namaspesialis']").val();
+      var tarif          = $("[name='tarif']").val();
+      var keterangan     = $("[name='keterangan']").val();
+
+      $.ajax({
+        type     : 'POST',
+        data     :  'kd_spesialis='+kd_spesialis+
+                    '&namaspesialis='+namaspesialis+
+                    '&tarif='+tarif+
+                    '&keterangan='+keterangan,
+        url      : '<?= base_url()."spesialis/update"?>',
+        dataType : 'json',
+        success  : function(hasil){
+          if(hasil.pesan == ''){
+            $('#exampleModal').modal('hide');
+            ambilData();
+
+            $("[name='kd_spesialis']").val('');
+            $("[name='namaspesialis']").val('');
+            $("[name='tarif']").val('');
+            $("[name='keterangan']").val('');
+          }
+        }
+      });
+    }
+
+    function hapus(x){
+      Swal.fire({
+      title: 'Apakah Anda Yakin?',
+      text: "Menghapus data ini",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Hapus'
+      }).then((result) => {
+      if (result.value) {
+          $.ajax({
+          type     : 'POST',
+          data     : 'kd_spesialis='+x,
+          url      : '<?= base_url()."spesialis/hapus"?>',
+          success  : function(){
+          ambilData();
+          Swal.fire({
+            title : 'Data Spesialis ',
+            text  : 'Berhasil di hapus ',
+            type  : 'success'
+          });
+          }
+        });
+      }
+
+      
+    })
+      
+    }
+
+    function save(){
+      var kd_spesialis   = $("[name='kd_spesialis']").val();
+      var namaspesialis  = $("[name='namaspesialis']").val();
+      var tarif          = $("[name='tarif']").val();
+      var keterangan     = $("[name='keterangan']").val();
+
+      $.ajax({
+        type     : 'POST',
+        data     :  'kd_spesialis='+kd_spesialis+
+                    '&namaspesialis='+namaspesialis+
+                    '&tarif='+tarif+
+                    '&keterangan='+keterangan,
+        url      : '<?= base_url()."spesialis/add_data"?>',
+        dataType : 'json',
+        success  : function(hasil){
+          if(hasil.pesan == ''){
+
+            $('#exampleModal').modal('hide');
+            ambilData();
+            $("[name='kd_spesialis']").val('');
+            $("[name='namaspesialis']").val('');
+            $("[name='tarif']").val('');
+            $("[name='keterangan']").val('');
+          }
+          Swal.fire({
+            title : 'Data Spesialis ',
+            text  : 'Berhasil ditambah',
+            type  : 'success'
+          });
+        }
+      });
+    }
+ </script>
+
+ 
