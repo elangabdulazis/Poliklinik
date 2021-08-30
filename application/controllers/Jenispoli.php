@@ -3,11 +3,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Jenispoli extends CI_Controller {
 
+	public function __construct(){
+		parent::__construct();
+		is_logged_in();
+	}
+
 	public function index()
 	{
 		$data['jenispoli'] = $this->jenispoli_model->get_data();
+		$data1['user'] = $this->db->get_where('user',['email'=>
+		$this->session->userdata('email')])->row_array();
+		
+
 		$this->load->model('jenispoli_model');
-		$this->load->view('templates/header');
+		$this->load->view('templates/header',$data1);
 		$this->load->view('templates/sidebar');
 		$this->load->view('jenispoli/v_view',$data);
 		$this->load->view('templates/footer');
@@ -39,7 +48,12 @@ class Jenispoli extends CI_Controller {
 	public function edit($kd_poli){
 		$where = array('kd_poli' => $kd_poli);
 		$data['jenispoli'] = $this->jenispoli_model->edit_data($where,'jenis_poli')->result();
-		$this->load->view('templates/header');
+		$data1['user'] = $this->db->get_where('user',['email'=>
+		$this->session->userdata('email')])->row_array();
+		
+
+		$this->load->model('jadwal_model');
+		$this->load->view('templates/header',$data1);
 		$this->load->view('templates/sidebar');
 		$this->load->view('jenispoli/v_edit',$data);
 		$this->load->view('templates/footer');

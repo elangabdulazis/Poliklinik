@@ -3,17 +3,7 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Dashboard</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
+
          <div class="card">
               <div class="card-header" style="background-color: aqua">
                 <h3 class="card-title">Data Obat</h3>
@@ -25,11 +15,12 @@
                 </div>
               </div>
 
-              <div class="card-body">
+              <div class="card-body" style="background-color: #212529; color: white;">
                 <div class="flash-data" data-flashdata="<?= $this->session->flashdata('flash');?>"></div>
-                <button type="button" class="btn bg-gradient-danger mb-3" data-toggle="modal" data-target=".bd-example-modal-xl">Tambah Data</button>
-                <button type="button" id="export" class="btn bg-gradient-success mb-3" >Export Excell</button>
-                <button type="button" class="btn bg-gradient-primary mb-3">Export Word</button>
+                <!-- <button type="button" class="btn bg-gradient-danger mb-3" data-toggle="modal" data-target=".bd-example-modal-xl">Tambah Data</button> -->
+                <a href="<?= base_url()?>obat/tambah" class="btn btn-danger mb-3">Tambah Data</a>
+                <a href="<?= base_url()?>obat/pdf" class="btn btn-warning mb-3">Export PDF</a>
+                <!-- <button type="button" class="btn bg-gradient-primary mb-3">Export Word</button> -->
                <!--  <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">Extra large modal</button> -->
               
                 <table id="tabel_id" class="table table-bordered mt-3 mb-3" >
@@ -37,35 +28,16 @@
                     <tr>
                       <th scope="col">No</th>
                       <th scope="col">Nama Obat</th>
-                      <th scope="col">Jenis Obat</th>
-                      <th scope="col">tanggal masuk</th>
-                      <th scope="col">expired</th>
-                      <th scope="col">keterangan</th>
-                      <th scope="col">harga</th>
+                      <th scope="col">Stock</th>
+                      <th scope="col">Harga Modal</th>
+                      <th scope="col">Harga Jual</th>
+                      <th scope="col">Order Date</th>
+                      <th scope="col">EXP Date</th>
                       <th scope="col">Aksi</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <?php $i = 1; ?>
-                      <?php foreach($obat as $row) : ?>
-                        <tr>
-                          <th scope="row"><?= $i; ?></th>
-                          <td><?= $row["nama_obat"] ?></td>
-                          <td><?= $row["jenis_obat"] ?></td>
-                          <td><?= $row["tgl_masuk"] ?></td>
-                          <td><?= $row["expired"] ?></td>
-                          <td><?= $row["keterangan"] ?></td>
-                          <td><?= $row["harga"] ?></td>
-                          <td>
-                           <a href="" class="btn btn-primary">Detai</a>
-                           <?php echo anchor('obat/edit/'.$row['kd_obat'],'<div class="btn btn-primary"><i class="fa fa-edit"></i></div>') ?>
-                           <a href="<?= base_url()?>obat/hapus/<?= $row['kd_obat']?> " class="btn btn-danger tombol-hapus"><i class="fa fa-trash"></i></a>
-                           
-                          </td>
-                         
-                        </tr>
-                      <?php $i++; ?>
-              <?php endforeach; ?>
+                  <tbody id="target">
+                    
               </tbody>
               </table>
             </div>
@@ -83,49 +55,83 @@
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Tambah Data Dokter</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Ubah data obat</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         
-        <form id="formdata" method="post" action=" <?= base_url().'obat/add_data';?> ">
+        <form id="formdata" method="post" action=" <?= base_url().'obat/update';?> ">
 
              <div class="form-group">
               <input type="hidden" class="form-control" name="kode_obat" id="kode_obat">
             </div>
             <div class="form-group">
-              <label for="namaobat">NAMA OBAT</label>
-              <input type="text" name="namaobat"  class="form-control" id="namaobat" placeholder="Nama Obat">
-            </div>
-            <div class="form-group">
-              <label for="jenisobat">JENIS Obat</label>
-              <select class="form-control form-control-lg" id="jenisobat" name="jenisobat">
-                <option>Pil</option>
-                <option>tablet</option>
-              </select>
-          </div>
-          <div class="form-group">
-            <label for="tgl_masuk">Tanggal Masuk</label>
-            <input type="date" class="form-control" id="tgl_masuk" name="tgl_masuk" >
-          </div>
-          <div class="form-group">
-            <label for="expired">EXPIRED OBAT</label>
-            <input type="date" class="form-control" id="expired" name="expired" placeholder="Expired Obat">
-          </div>
-          <div class="form-group">
-            <label for="keterangan">KETERANGAN</label>
-            <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Keterangan Obat">
-          </div>
-         <div class="form-group">
-            <label for="harga">harga</label>
-            <input type="text" class="form-control" id="harga" name="harga" placeholder="harga">
-          </div>
-                
+                  <label for="namaobat">NAMA OBAT</label>
+                  <input type="text" name="namaobat"  class="form-control" id="namaobat" placeholder="Nama Obat">
+                </div>
+              <div class="form-group">
+                <label for="miligram">Miligram</label>
+                <input type="text" class="form-control" id="miligram" name="miligram" placeholder="miligram">
+              </div>
+              <div class="form-group">
+                  <label for="jenisobat">Type obat</label>
+                  <select class="form-control form-control-lg" id="jenisobat" name="jenisobat">
+                    <option id="Tablet">Tablet</option>
+                    <option id="Kapsul">Kapsul</option>
+                    <option id="Salep">Salep</option>
+                    <option id="Cair">Cair</option>
+                  </select>
+              </div>
+              <div class="form-group">
+                  <label for="unit">Unit</label>
+                  <select class="form-control form-control-lg" id="unit" name="unit">
+                    <option id="box">Box</option>
+                    <option id="botol">Botol</option>
+                  </select>
+              </div>
+              <div class="form-group">
+                <label for="jumlahunit">Jumlah Unit</label>
+                <input type="text" class="form-control" id="jumlahunit" name="jumlahunit" placeholder="Jumlah Unit">
+              </div>
+              <div class="form-group">
+                <label for="obatperunit">Jumlah Obat Per Unit</label>
+                <input type="text" class="form-control" id="obatperunit" name="obatperunit" placeholder="Jumlah Obat Per Unit">
+              </div>
+              <div class="form-group">
+                <label for="totalobat">Total Obat</label>
+                <input type="text" class="form-control" id="totalobat" name="totalobat" placeholder="Total Obat" readonly="">
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="hargabeli">Harga beli/unit(Rp.)</label>
+                    <input type="text" class="form-control" id="hargabeli" name="hargabeli" placeholder="Harga Beli">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="hargamodal">Harga Modal</label>
+                    <input type="text" class="form-control" id="hargamodal" name="hargamodal" placeholder="Harga Modal" readonly="">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="hargajual">Harga Jual</label>
+                <input type="text" class="form-control" id="hargajual" name="hargajual" placeholder="Harga Jual" readonly="">
+              </div>                  
+              <div class="form-group">
+                <label for="tgl_masuk">Tanggal Masuk</label>
+                <input type="date" class="form-control" id="tgl_masuk" name="tgl_masuk" >
+              </div>
+              <div class="form-group">
+                <label for="expired">EXPIRED OBAT</label>
+                <input type="date" class="form-control" id="expired" name="expired" placeholder="Expired Obat">
+              </div>
    
        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" id="btn" class="btn btn-primary">Simpan Data</button>
+        <button type="submit" id="btn" class="btn btn-primary">Update Data</button>
 
       </form>
     
@@ -178,10 +184,145 @@ $(function(){
 });
 
 
-  
+   function submit(x){
+
+    $.ajax({
+          type     : 'POST',
+          data     : 'kd_obat='+x,
+          url      : '<?= base_url()."obat/edit"?>',
+          dataType : 'json',
+          success  : function(hasil){
+            console.log(hasil);
+            $("[name='kode_obat']").val(hasil[0].kd_obat);
+            $("[name='namaobat']").val(hasil[0].nama_obat);
+            $("[name='miligram']").val(hasil[0].miligram);
+            $("[name='jumlahunit']").val(hasil[0].jumlah_unit);
+            $("[name='obatperunit']").val(hasil[0].jumla_obat_unit);
+            $("[name='totalobat']").val(hasil[0].total_obat);
+            $("[name='hargabeli']").val(hasil[0].harga_beli);
+            $("[name='hargamodal']").val(hasil[0].harga_modal);
+            $("[name='hargajual']").val(hasil[0].harga_jual);
+            $("[name='tgl_masuk']").val(hasil[0].tgl_masuk);
+            $("[name='expired']").val(hasil[0].expired);
+
+            let jenisobat = hasil[0].jenis_obat;
+            console.log(jenisobat);
+            $('#'+jenisobat).attr('selected', '');
+
+          }
+        }); 
+  }
+
+  checkTabel();
+
+  function checkTabel(){
+    let str     = $('#stock').text();
+    let strexp  = $('#exp').text();
+    let span    = '<span class="badge badge-warning">Habis</span>';
+    let spans   = '<span class="badge badge-danger">Kadaluarsa</span>';
+    let stock   = str.split(" ");
+    let exp     = strexp.split("-");
+    let tgl     = new Date();
+    let date    = tgl.getFullYear()+"-"+(tgl.getMonth()+1)+"-"+tgl.getDate();
+    let tglnow  = date.split("-");
+
+    console.log(str.length);
+
+    console.log(tglnow);
+
+    console.log(exp);
+   
+      if(stock[0] == 0){
+       $('#stock').html(span);
+      }
+    
+    if(tglnow[0] <= exp[0] ){
+      if(tglnow[1] <= exp[1]){
+        if(tglnow[2] <= exp[2]){
+
+        }else{
+          $('#exp').html(spans);  
+        }
+      }else{
+        $('#exp').html(spans);  
+      }
+      
+    }else{
+      $('#exp').html(spans);
+    }
+  }
 
   
+ambilData();
 
+    function ambilData(){
+      $.ajax({
+        type     : 'POST',
+        url      : '<?= base_url()."obat/getData"?>',
+        dataType : 'json',
+        success  : function(data){
+            console.log(data);
+            var baris='';
+            var no=1;
+            
+            for(var i=0;i<data.length;i++){
+              let stock = checkData(data[i].total_obat,data[i].jenis_obat);
+              let tgl   = checkExpired(data[i].expired);
+              baris += `<tr>
+                          <td>`+no+`</td>
+                          <td>`+data[i].nama_obat+`</td>+
+                          <td>`+stock+`</td>+
+                          <td>`+data[i].harga_modal+`</td>+
+                          <td>`+data[i].harga_jual+`</td>+
+                          <td>`+data[i].tgl_masuk+`</td>+
+                          <td>`+tgl+`</td>+
+                          <td><button type="button" onclick="submit('`+data[i].kd_obat+`')" class="btn btn-primary btnedit" data-toggle="modal" data-target=".bd-example-modal-xl">Edit</button><a href="<?= base_url()?>obat/hapus/`+data[i].kd_obat+` " class="btn btn-danger tombol-hapus"><i class="fa fa-trash"></i></a>
+                       </tr>`;
+               no++;
+            }
+            $('#target').html(baris);
+           
+        }
+      });
+    }
+
+    checkData(0);
+
+    function checkData(n,j){
+      let data;
+      if(n == 0){
+        data = `<span class="badge badge-warning">Stock Habis</span>`
+      }else{
+        data = `<span class="">`+n+' '+j+`</span>`
+      }  
+      return data;
+    }
+
+    function checkExpired(n){
+    let exp     = n.split("-");
+    let tgl     = new Date();
+    let date    = tgl.getFullYear()+"-"+(tgl.getMonth()+1)+"-"+tgl.getDate();
+    let tglnow  = date.split("-");
+    let spans   = '<span class="badge badge-danger">Kadaluarsa</span>';
+    let data;
+
+    if(tglnow[0] <= exp[0] ){
+      if(tglnow[1] <= exp[1]){
+        if(tglnow[2] <= exp[2]){
+          data = n;
+        }else{
+         data = spans;  
+        }
+      }else{
+        data = spans;  
+      }
+      
+    }else{
+      data = spans;
+    }
+
+    return data;
+    }
   
 </script>
  

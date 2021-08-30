@@ -6,8 +6,12 @@ class Poli extends CI_Controller {
 	public function index()
 	{
 		$data['poli'] = $this->poli_model->get_data();
+		$data1['user'] = $this->db->get_where('user',['email'=>
+		$this->session->userdata('email')])->row_array();
+		
+
 		$this->load->model('poli_model');
-		$this->load->view('templates/header');
+		$this->load->view('templates/header',$data1);
 		$this->load->view('templates/sidebar');
 		$this->load->view('poli/v_view',$data);
 		$this->load->view('templates/footer');
@@ -20,8 +24,12 @@ class Poli extends CI_Controller {
 
 	public function tambahdata(){
 		$kode['kode'] = $this->input->post('kd_poli');
+		$data1['user'] = $this->db->get_where('user',['email'=>
+		$this->session->userdata('email')])->row_array();
+		
+
 		$this->load->model('poli_model');
-		$this->load->view('templates/header');
+		$this->load->view('templates/header',$data1);
 		$this->load->view('templates/sidebar');
 		$this->load->view('poli/v_add',$kode);
 		$this->load->view('templates/footer');
@@ -78,7 +86,12 @@ class Poli extends CI_Controller {
 	public function edit($kd_poli){
 		$where = array('kd_poli' => $kd_poli);
 		$data['poli'] = $this->poli_model->edit_data($where,'tbl_poli')->result();
-		$this->load->view('templates/header');
+		$data1['user'] = $this->db->get_where('user',['email'=>
+		$this->session->userdata('email')])->row_array();
+		
+
+		$this->load->model('poli_model');
+		$this->load->view('templates/header',$data1);
 		$this->load->view('templates/sidebar');
 		$this->load->view('poli/v_edit',$data);
 		$this->load->view('templates/footer');

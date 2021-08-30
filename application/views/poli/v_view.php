@@ -42,7 +42,7 @@
                 </div>
               </div>
 
-              <div class="card-body">
+              <div class="card-body" style="background-color: #212529; color: white;">
               <form method="post" action=" <?= base_url().'poli/tambahdata';?> ">
                 <div class="form-group">
                 <label for="id_label_single">

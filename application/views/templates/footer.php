@@ -1,10 +1,8 @@
  <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.0.0-rc.3
-    </div>
+    <span>Copyright &copy; Website HOSPITAL <?= date('Y');  ?></span>
+    
+   
   </footer>
 
   <!-- Control Sidebar -->
@@ -29,6 +27,8 @@
 <!-- <script src="assets/plugins/jqvmap/jquery.vmap.min.js"></script> -->
 <!-- <script src="assets/plugins/jqvmap/maps/jquery.vmap.usa.js"></script> -->
 <!-- jQuery Knob Chart -->
+ <!-- select2 -->
+  <script src="<?php echo base_url() ?>assets/plugins/select2/js/select2.full.min.js"></script>
 <script src="<?php echo base_url() ?>assets/plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
 <script src="<?php echo base_url() ?>assets/plugins/moment/moment.min.js"></script>
@@ -66,6 +66,24 @@
       });
     });
     
+
+  });
+
+  $('.form-check-input').on('click',function(){
+    const menuId =$(this).data('menu');
+    const levelId =$(this).data('level');
+
+    $.ajax({
+      url:"<?= base_url('admin/changeaccess');  ?>",
+      type : 'post',
+      data : {
+        menuId:menuId,
+        levelId: levelId
+      },
+      success :function (){
+        document.location.href = "<?= base_url('admin/access/');  ?>" + levelId;
+      }
+    }); 
 
   });
 </script>

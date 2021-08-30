@@ -238,7 +238,7 @@ function save(){
   
 
         $.ajax({
-          type     : 'POST',<a href=""></a>
+          type     : 'POST',
           data     :  'no='+no+
                       '&kdd_poli='+kdd_poli+
                       '&kdd_dokter='+kdd_dokter,

@@ -33,311 +33,401 @@
         <!-- Main row -->
         <div class="card">
               <div class="card-header" style="background-color: aqua">
-                <h3 class="card-title">Resep Obat</h3>
+                <h3 class="card-title">Razitul Ikhlas</h3>
 
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse" style="color: white">
                     <i class="fas fa-minus"></i></button>
-                  
-                </div>
-              </div>
-
-              <div class="card-body">
-              <div class="row ml-3">
-                    <div class="form-group" style="width:30%">
-                      <label>Dokter</label>
-                          <select class="custom-select" id="kd_dokter" name="kd_dokter">
-                             <?php 
-                                $dokter = $this->dokter_model->get_data();
-                             ?>
-                             <?php foreach($dokter as $row) : ?>
-
-                                <option value="<?= $row['kd_dokter'] ?>"> <?= $row['nama']?> </option>
-                            
-                            <?php endforeach;?>
-                          </select>
-                     </div>
-
-                      <div class="form-group ml-3" style="width:30%">
-                          <label>Pasien</label>
-                              <select class="custom-select" id="kd_pasien" name="kd_pasien">
-                                  <?php 
-                                        
-                                      $pasien = $this->pasien_model->get_data();
-
-                                  ?>
-                                  <?php foreach($pasien as $row) : ?>
-
-                                    <option value="<?= $row['kd_pasien'] ?>"> <?= $row['nama']?> </option>
-                                
-                                  <?php endforeach;?>
-                              </select>
-                              
-                      </div>
-
-                      <div class="form-group ml-3 mt-2">
-                        <button type="submit" id="btntambah" class="btn  btn-warning ml-3 mt-4">TAMBAH</button>
-                      </div>
+                 </div>
                </div>
-               <div class="ml-3 mr-5">
-           
-               <div class="form-group">
-                  <label for="namapasien">NOFAKTUR</label>
-                  <input type="text" name="namapasien"  class="form-control" id="namapasien" placeholder="Nama Pasien">
-              </div>
-            <div class="form-group ">
-              <label for="jeniskelamin">KODE OBAT</label>
-              <select class="form-control form-control-lg" id="jeniskelamin" name="jeniskelamin">
-                <option>pria</option>
-                <option>wanita</option>
-              </select>
-          </div>
-     
-    <div class="form-group">
-        <label for="kotalahir">HARGA</label>
-        <input type="text" class="form-control" id="kotalahir" name="kotalahir"  placeholder="KOTA KELAHIRAN">
-      </div>
-      <div class="form-group">
-        <label for="tgllahir">JUMLAH</label>
-        <input type="date" class="form-control" id="tgllahir" name="tgllahir" placeholder="Tanggal Lahir" >
-      </div>
-
-      <div class="form-group">
-        <label for="Alamat">SUBTOTAL</label>
-        <textarea class="form-control" id="alamat" name="alamat" rows="3"></textarea>
-      </div>
-         <div class="form-group">
-        <label for="provinsi">DIBAYAR</label>
-        <input type="text" class="form-control" id="provinsi" name="provinsi" placeholder="Provinsi" >
-      </div>
-      <div class="form-group">
-        <label for="kota">KEMBALIAN</label>
-        <input type="text" class="form-control" id="kota" name="kota" placeholder="Kota" >
-      </div>
-      <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target=".bd-example-modal-xl" >Tambah obat</button>
-    </div>
-               </form>
+              <div class="card-body">
+                <!-- <form > -->
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label>Dokter</label>
+                        <input type="text" id="kd_dokter" data-kode="<?= $kd_dokter ?>"  name="kd_dokter" class="form-control" placeholder="Enter ..." readonly="">
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label>Pasien</label>
+                        <input type="text" id="kd_pasien" data-kode="<?= $kd_pasien ?>" name="kd_pasien"  class="form-control" placeholder="Enter ..." readonly="">
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label>No Faktur</label>
+                        <input type="text" id="faktur" name="faktur" class="form-control" placeholder="Enter ..." readonly="">
+                      </div>
+                    </div>
+                  </div>
+                   <div class="row">
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                          <label>KODE OBAT</label>
+                          <select class="custom-select" id="kd_obat" name="kd_obat"> 
+                            <?php foreach($kd_obat as $row) : ?>
+                              <option value="<?= $row['kd_obat'] ?>"><?= $row['nama_obat']  ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        </div>
+                      </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                          <label>HARGA</label>
+                          <input type="text" id="harga" name="harga" class="form-control" placeholder="harga..." readonly="">
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <label>JUMLAH</label>
+                        <input type="text" id="jumlah" name="jumlah" class="form-control" placeholder="jumlah ..." >
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <label>SUB HARGA</label>
+                        <input type="text" class="form-control" id="subharga" name="subharga" placeholder="harga ..." readonly="">
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="form-group" style="margin-top: 32px;">
+                        <button class="form-control btn btn-primary" id="btnTambah" style="width: 40%"> tambah</button>
+                      </div>
+                    </div>     
+                  </div>
+             <!--    </form> -->
                 
-                <LABEL></LABEL>
-                <table id="tabel_id" class="table table-bordered mt-3" >
-        				  <thead>
-        				    <tr>
-        				      <th scope="col">No</th>
-        				      <th scope="col">Kode Poli</th>
-                      <th scope="col">Kode Dokter</th>
-        				      <th scope="col">Aksi</th>
-        				    </tr>
-        				  </thead>
-        				  <tbody id="target">
-                  
-              </tbody>
-        			</table>
-            </div>
+                <br><br>
+                <div style="margin-top: 20px">
+                  <table id="tabel_id" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Nama Obat</th>
+                            <th scope="col">harga</th>
+                            <th scope="col">jumlah</th>
+                            <th scope="col">subharga</th>
+                            <th scope="col">Aksi</th>
+                          </tr>
+                        </thead>
+                        <tbody id="tbody">
+                          
+                        </tbody>
+                      </table>
+                      <div class="row mt-2">
+                        <div class="col-md-2">
 
+                        </div>
+                        <div class="col-md-2">
+
+                        </div>
+                        <div class="col-md-5">
+
+                        </div>
+                        <div class="col-md-1 mt-1">
+                          <b>Total</b>
+                        </div>
+                        <div class="col-md-2 pull-right">
+                          <input type="text" name="txtTotal" id="txtTotal" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-2">
+
+                        </div>
+                        <div class="col-md-2">
+
+                        </div>
+                        <div class="col-md-5">
+
+                        </div>
+                        <div class="col-md-1 mt-1">
+                          <b>Di bayar</b>
+                        </div>
+                        <div class="col-md-2 pull-right">
+                          <input type="text" name="dibayar" id="dibayar" class="form-control" >
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-2">
+
+                        </div>
+                        <div class="col-md-2">
+
+                        </div>
+                        <div class="col-md-5">
+
+                        </div>
+                        <div class="col-md-1 mt-1">
+                          <b>Kembalian</b>
+                        </div>
+                        <div class="col-md-2 pull-right">
+                          <input type="text" name="kembalian" id="kembalian" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-md-2">
+                          
+                        </div>
+                        <div class="col-md-2">
+
+                        </div>
+                        <div class="col-md-5">
+
+                        </div>
+                        <div class="col-md-1 mt-1">
+                          
+                        </div>
+                        <div class="col-md-2 pull-right">
+                          <button class="form-control btn btn-danger" id="btnBayar">Bayar</button>
+                        </div>
+                    </div>
+                    
+                </div>
+
+              </div>
             <!-- Modal -->
-            
-              <!-- /.card-footer-->
-            </div>
+            <!-- /.card-footer-->
+        </div>
         <!-- /.row (main row) -->
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-
   </div>
 
 
 
 
 
-  <!-- modal -->
-
-
-  <div class="modal fade bd-example-modal-xl" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Tambah Data Poli</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-     
-        <div class="form-group">
-                <input type="hidden" class="form-control" id="no" name="no" >
-            </div>
-            <div class="form-group">
-                <input type="hidden" class="form-control" id="kdd_poli" name="kdd_poli" value="<?= $kode ?>">
-            </div>
-            <div class="form-group">
-                <label for="kd_dokter">KODE DOKTER</label>
-                    <select class="form-control form-control-lg" id="kdd_dokter" name="kdd_dokter">
-                        <?php 
-                            $dokter =$this->dokter_model->get_data();;
-                        ?>
-                            <?php foreach($dokter as $row) : ?>
-                        <option value="<?= $row['kd_dokter']  ?>"><?php echo $row['nama']  ?></option>
-                             <?php endforeach; ?>
-                    </select>
-            </div>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" onclick="save()" class="btn btn-primary">Tambah</button>
-
- 
-      </div>
-      
-    </div>
-  </div>
-</div>
+  
 
 
   <!-- /.content-wrapper -->
-  <script>
+<script>
+  getData();
+  // getNamaPasien();
+  function getData(){
+      let nama = $('#kd_dokter').data('kode');
+      let namapasien = $('#kd_pasien').data('kode');
 
-ambilData();
+      $.ajax({
+          type     : 'POST',
+          data     : 'kd_dokter='+nama+'&kd_pasien='+namapasien,
+          url      : '<?= base_url()."resep/getData"?>',
+          dataType : 'json',
+          success  : function(hasil){
+            console.log(hasil);
+             $("[name='kd_dokter']").val(hasil['datadokter'][0].nama);
+             $("[name='kd_pasien']").val(hasil['datapasien'][0].nama);
+          }
+      });
+  }
 
-function ambilData(){
-  $.ajax({
-    type     : 'POST',
-    url      : '<?= base_url()."poli/getdetail"?>',
-    dataType : 'json',
-    success  : function(data){
-        console.log(data);
-        var baris='';
-        var no=1;
-        for(var i=0;i<data.length;i++){
-          baris += '<tr>'+
-                      '<td>'+no+'</td>'+
-                      '<td>'+data[i].kd_poli+'</td>'+
-                      '<td>'+data[i].kd_dokter+'</td>'+
-                      '<td><button onclick="hapus('+data[i].no+')" class="btn btn-danger mb-3">Hapus</button></td>'+
-                   '</tr>';
-           no++;
+  detaIlObat();
+
+  function detaIlObat(){
+    let kd_obat = $('#kd_obat').val();
+    $.ajax({
+        type     : 'POST',
+        data     : 'kd_obat='+kd_obat,
+        url      : '<?= base_url()."resep/detailObat"?>',
+        dataType : 'json',
+        success  : function(hasil){
+          $("[name='harga']").val(hasil[0].harga);
         }
-        $('#target').html(baris);
-       
-    }
+    });
+  }
+
+  
+  $('#kd_obat').on('change',function(){
+      detaIlObat();
+
   });
-}
 
-function submit(x){
+  function harga(){
+    let jumlah = $('#jumlah').val();
+    let subharga = $('#harga').val() * jumlah ;
+    $("[name='subharga']").val(subharga);
+  }
 
-  if(x=='tambah'){
-    $('#btn_simpan').show();
-    $('#btn_ubah').hide();
-  }else{
-    $('#btn_simpan').hide();
-    $('#btn_ubah').show();
+  $('#jumlah').on('input',function(){
+      harga();
+  });
+
+  getFaktur();
+
+  function getFaktur(){
+    let faktur = $('#faktur').val();
+    console.log('faktur')
+
+    if(faktur==''){
+      $.ajax({
+        type     : 'POST',
+        url      : '<?= base_url()."resep/getFaktur"?>',
+        dataType : 'json',
+        success  : function(hasil){
+          console.log(hasil);
+          $("[name='faktur']").val(hasil);
+        }
+      });
+    }
+  }
+
+  getTabel();
+  function getTabel(){
+    let faktur = $('#faktur').val();
+
+    console.log(faktur);
 
     $.ajax({
       type     : 'POST',
-      data     : 'kd_spesialis='+x,
-      url      : '<?= base_url()."spesialis/edit"?>',
+      data     : 'faktur='+faktur,
+      url      : '<?= base_url()."resep/getDataTable"?>',
       dataType : 'json',
       success  : function(hasil){
-        $("[name='kd_spesialis']").val(hasil[0].kd_spesialis);
-        $("[name='namaspesialis']").val(hasil[0].nama);
-        $("[name='tarif']").val(hasil[0].tarif);
-        $("[name='keterangan']").val(hasil[0].keterangan);
+        console.log(hasil);
+          var baris='';
+            var no=1;
+            for(var i=0;i<hasil.length;i++){
+             
+              baris += '<tr>'+
+                          '<td>'+no+'</td>'+
+                          '<td>'+hasil[i].nama_obat+'</td>'+
+                          '<td>Rp.'+hasil[i].harga+'</td>'+
+                          '<td>'+hasil[i].jumlah+'</td>'+
+                          '<td>'+hasil[i].sub_total+'</td>'+
+                          '<td><button type="button" class="btn btn-danger " onclick="hapus('+hasil[i].no+')" data-toggle="modal" data-target=".bd-example-modal-xl">hapus</button>'+
+                       '</tr>';
+               no++;
+            }
+            $('#tbody').html(baris);
       }
     });
   }
 
-}
+  function save(){
+    
+    let faktur   = $('#faktur').val();
+    let kd_obat  = $('#kd_obat').val();
+    let harga    = $('#harga').val();
+    let jumlah   = $('#jumlah').val();
+    let subharga = $('#subharga').val();
 
-function ubah(){
-  var kd_spesialis   = $("[name='kd_spesialis']").val();
-  var namaspesialis  = $("[name='namaspesialis']").val();
-  var tarif          = $("[name='tarif']").val();
-  var keterangan     = $("[name='keterangan']").val();
+    $.ajax({
+        type     :  'POST',
+        data     :  'kd_obat='+kd_obat+
+                    '&faktur='+faktur+
+                    '&harga='+harga+
+                    '&jumlah='+jumlah+
+                    '&subharga='+subharga,
+        url      : '<?= base_url()."resep/save"?>',
+        dataType : 'json',
+        success  : function(hasil){
+          if(hasil.pesan == ''){
+            $("[name='jumlah']").val('');
+            $("[name='subharga']").val('');
+            Swal.fire({
+            title : 'Data Spesialis ',
+            text  : 'Berhasil ditambah',
+            type  : 'success'
+          });
+          }   
+        }
+      });
+    getTabel();
+    totalPembayaran(faktur);
 
-  $.ajax({
-    type     : 'POST',
-    data     :  'kd_spesialis='+kd_spesialis+
-                '&namaspesialis='+namaspesialis+
-                '&tarif='+tarif+
-                '&keterangan='+keterangan,
-    url      : '<?= base_url()."spesialis/update"?>',
-    dataType : 'json',
-    success  : function(hasil){
-      if(hasil.pesan == ''){
-        $('#exampleModal').modal('hide');
-        ambilData();
+  }
 
-        $("[name='kd_spesialis']").val('');
-        $("[name='namaspesialis']").val('');
-        $("[name='tarif']").val('');
-        $("[name='keterangan']").val('');
+  $('#btnTambah').on('click',function(){
+    
+    let jumlah   = $('#jumlah').val();
+    let subharga = $('#subharga').val();
+
+    (jumlah =='' && subharga == '' ) ? alert('jumlah obat tidak boleh kosong') : save() ;
+      
+  });
+
+  function totalPembayaran(nofaktur){   
+    $.ajax({
+      type     : 'POST',
+      data     : 'faktur='+nofaktur,
+      dataType : 'json',
+      url      : '<?= base_url()."resep/totalHarga" ?>',
+      success  : function(hasil){
+        console.log(hasil);
+        $("[name='txtTotal']").val(hasil[0].sub_total);
+
       }
+    });
+ 
+  }
+
+  $('#dibayar').on('input',function(){
+    let totalHarga = $('#txtTotal').val();
+    let dibayar    = $('#dibayar').val();
+
+    if(dibayar != ""){
+      let kembalian = dibayar - totalHarga ;
+      $("[name='kembalian']").val(kembalian);
+    }else{
+      $("[name='kembalian']").val('');
+    }
+
+  });
+
+  function savePembayaran(){
+    let nofaktur   = $('#faktur').val();
+    let kd_dokter  = $('#kd_dokter').data('kode');
+    let kd_pasien  = $('#kd_pasien').data('kode');
+    let totalHarga = $('#txtTotal').val();
+    let dibayar    = $('#dibayar').val();
+    let kembalian  = $('#kembalian').val();
+    let pelayan    = $('.card-title').text();
+
+    $.ajax({
+      type    : 'POST',
+      url     : '<?= base_url()."resep/savePembayaran"?>',
+      data    : 'nofaktur='+nofaktur+
+                '&kd_dokter='+kd_dokter+
+                '&kd_pasien='+kd_pasien+
+                '&totalHarga='+totalHarga+
+                '&dibayar='+dibayar+
+                '&kembalian='+kembalian+
+                '&pelayan='+pelayan,
+      dataType : 'json',
+      success  : function(e){
+       // location.href = "https://www.w3schools.com";
+
+      }
+    });
+
+  }
+
+  $('#btnBayar').on('click',function(){
+      savePembayaran();
+      myFunction();
+  });
+
+  function myFunction() {
+  location.href = '<?= base_url()."resep/index" ?>';
+  }
+
+ function hapus(x){
+  $.ajax({
+    type : 'POST',
+    data : 'no='+x,
+    url  : '<?= base_url()."resep/hapusData" ?>',
+    dataType : 'json',
+    success  : function(data){
+      console.log(data);
+      getTabel();
     }
   });
-}
-
-function hapus(x){
-  Swal.fire({
-  title: 'Apakah Anda Yakin?',
-  text: "Menghapus data ini",
-  type: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Hapus'
-  }).then((result) => {
-  if (result.value) {
-      $.ajax({
-      type     : 'POST',
-      data     : 'no='+x,
-      url      : '<?= base_url()."poli/hapusdetail"?>',
-      success  : function(){
-      ambilData();
-      Swal.fire({
-  title : 'Data Poli ',
-  text  : 'Berhasil di hapus ',
-  type  : 'success'
-});
-      }
-    });
-  }
+ }
 
 
-})
-  
-}
 
-function save(){
-  
-  var no         = $("[name='no']").val();
-  var kdd_poli   = $("[name='kdd_poli']").val();
-  var kdd_dokter = $("[name='kdd_dokter']").val();
-  
-
-        $.ajax({
-          type     : 'POST',<a href=""></a>
-          data     :  'no='+no+
-                      '&kdd_poli='+kdd_poli+
-                      '&kdd_dokter='+kdd_dokter,
-          url      : '<?= base_url()."poli/add_detail"?>',
-          dataType : 'json',
-          success  : function(hasil){
-            if(hasil.pesan == ''){
-
-              $('#exampleModal').modal('hide');
-              ambilData();
-              $("[name='no']").val('');
-            
-            
-            }
-            Swal.fire({
-              title : 'Data Poli ',
-              text  : 'Berhasil ditambah',
-              type  : 'success'
-            });
-
-          }
-
-          
-        });
-
-
-}
 </script>

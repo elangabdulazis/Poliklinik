@@ -1,4 +1,5 @@
-<?php
+
+ <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Dokter extends CI_Controller {
@@ -7,13 +8,25 @@ class Dokter extends CI_Controller {
 
 	public function index()
 	{
-		$data =[
-			'dokter' 	=> $this->dokter_model->get_data(),
-			'spesialis' => $this->spesialis_model->get_data()
+		$query = "
+		SELECT tbl_spesialis.nama AS 'namaspesialis',tbl_dokter.nama AS 'namadokter',noizin,nohp,tarif,kd_dokter
+		FROM tbl_dokter,tbl_spesialis
+		WHERE tbl_spesialis.kd_spesialis=tbl_dokter.spesialis
+		";
 
+		$data =[
+			'dokter' 	=> $this->dokter_model->getDetail($query),
+			'spesialis' => $this->spesialis_model->get_data()
 		]; 
+		$data1['user'] = $this->db->get_where('user',['email'=>
+		$this->session->userdata('email')])->row_array();
+
+		
+
+		
+
 		$this->load->model('dokter_model');
-		$this->load->view('templates/header');
+		$this->load->view('templates/header',$data1);
 		$this->load->view('templates/sidebar');
 		$this->load->view('dokter/v_view',$data);
 		$this->load->view('templates/footer');
@@ -29,9 +42,12 @@ class Dokter extends CI_Controller {
 			'dokter'	=> '',
 		];
 		
+		$data1['user'] = $this->db->get_where('user',['email'=>
+		$this->session->userdata('email')])->row_array();
+		
 
 		$this->load->model('dokter_model');
-		$this->load->view('templates/header');
+		$this->load->view('templates/header',$data1);
 		$this->load->view('templates/sidebar');
 		$this->load->view('dokter/v_add',$data);
 		$this->load->view('templates/footer');
@@ -51,20 +67,19 @@ class Dokter extends CI_Controller {
 		$kotalahir		= $this->input->post('kotalahir');
 		$tanggal_lahir 	= $this->input->post('tgllahir');
 		$spesialis 		= $this->input->post('spesialis');
-		$tarif 			= $this->input->post('tarif');
 		$email 			= $this->input->post('email');
 		$password 		= $this->input->post('password');
-		$poto 			=$_FILES['foto']['name'];
+		$foto 			=$_FILES['foto']['name'];
    
-		if($poto==''){}else{
+		if($foto==''){}else{
 		$config['upload_path']   = './assets/foto/';
 		$config['allowed_types'] = 'jpg|png|gif';
 
 		$this->load->library('upload',$config);	
-		if(!$this->upload->do_upload('poto')){
+		if(!$this->upload->do_upload('foto')){
 			echo "Upload Gagal";
 		} else {
-			$foto = $this->upload->data('file_name');
+			$poto = $this->upload->data('file_name');
 		}
 		}
 
@@ -83,10 +98,9 @@ class Dokter extends CI_Controller {
 			'tampat_lahir'	=> $kotalahir,
 			'tanggal_lahir' => $tanggal_lahir,
 			'spesialis'		=> $spesialis,
-			'tarif'			=> $tarif,
 			'email'			=> $email,
 			'password'  	=> $password,
-			'photo'			=> $poto
+			'photo'			=> $foto
 		);
 
 		$this->dokter_model->input_data($data,'tbl_dokter');
@@ -125,11 +139,21 @@ class Dokter extends CI_Controller {
 		$kotalahir		= $this->input->post('kotalahir');
 		$tanggal_lahir 	= $this->input->post('tgllahir');
 		$spesialis 		= $this->input->post('spesialis');
-		$tarif 			= $this->input->post('tarif');
 		$email 			= $this->input->post('email');
 		$password 		= $this->input->post('password');
-		$poto 			=$_FILES['foto']['name'];
+		$foto			=$_FILES['foto']['name'];
 	
+		if($foto==''){}else{
+		$config['upload_path']   = './assets/foto/';
+		$config['allowed_types'] = 'jpg|png|gif';
+
+		$this->load->library('upload',$config);	
+		if(!$this->upload->do_upload('foto')){
+			echo "Upload Gagal";
+		} else {
+			$foto = $this->upload->data('file_name');
+		}
+		}
 		$data = array(
 			'nama'			=> $namadokter,
 			'jenis_kelamin'	=> $jeniskelamin,
@@ -143,10 +167,9 @@ class Dokter extends CI_Controller {
 			'tampat_lahir'	=> $kotalahir,
 			'tanggal_lahir' => $tanggal_lahir,
 			'spesialis'		=> $spesialis,
-			'tarif'			=> $tarif,
 			'email'			=> $email,
 			'password'  	=> $password,
-			'photo'			=> $poto
+			'photo'			=> $foto
 		);
 
 		$where = array(

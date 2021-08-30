@@ -7,17 +7,7 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Dashboard</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
+
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
@@ -40,12 +30,12 @@
                 </div>
               </div>
 
-              <div class="card-body">
+              <div class="card-body" style="background-color: #212529; color: white;">
               <div class="flash-data" data-flashdata="<?= $this->session->flashdata('flash');?>"></div>
               	<!-- <button type="button" class="btn bg-gradient-danger mb-3" data-toggle="modal" data-target=".bd-example-modal-xl">Tambah Data</button> -->
               	<a href="<?= base_url()?>pasien/tambah" class="btn btn-danger mb-3"> Tambah </a>
-                <button type="button" class="btn bg-gradient-success mb-3">Export Excell</button>
-              	<button type="button" class="btn bg-gradient-primary mb-3">Export Word</button>
+                <a href="<?= base_url()?>pasien/pdf" class="btn btn-warning mb-3"> Export PDF </a>
+              	<!-- <button type="button" class="btn bg-gradient-primary mb-3">Export Word</button> -->
                <!--  <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">Extra large modal</button> -->
               
                 <table id="tabel_id" class="table table-bordered mt-3 mb-3" >
@@ -217,13 +207,6 @@
                 }
 
         });
-
-        
-        
-
-        
-        
-  
 
       }
 

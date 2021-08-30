@@ -5,9 +5,14 @@ class Pasien extends CI_Controller {
 
 	public function index()
 	{
+		
 		$data['pasien'] = $this->pasien_model->get_data();
+		$data1['user'] = $this->db->get_where('user',['email'=>
+		$this->session->userdata('email')])->row_array();
+		
+
 		$this->load->model('pasien_model');
-		$this->load->view('templates/header');
+		$this->load->view('templates/header',$data1);
 		$this->load->view('templates/sidebar');
 		$this->load->view('pasien/v_view',$data);
 		$this->load->view('templates/footer');
@@ -16,8 +21,12 @@ class Pasien extends CI_Controller {
 
 	public function tambah()
 	{
+		$data1['user'] = $this->db->get_where('user',['email'=>
+		$this->session->userdata('email')])->row_array();
+		
+
 		$this->load->model('pasien_model');
-		$this->load->view('templates/header');
+		$this->load->view('templates/header',$data1);
 		$this->load->view('templates/sidebar');
 		$this->load->view('pasien/v_add');
 		$this->load->view('templates/footer');
@@ -62,6 +71,7 @@ class Pasien extends CI_Controller {
 		$where = array('kd_pasien' => $kd_pasien);
 		$this->pasien_model->hapus_data($where,'pasien');
 		$this->session->set_flashdata('flash','Dihapus');
+		
 		redirect('pasien/index');
 
 	}
@@ -113,5 +123,22 @@ class Pasien extends CI_Controller {
 		$this->session->set_flashdata('flash','Diubah');
 		redirect('pasien/index');
 
+	}
+		public function pdf(){
+		$this->load->library('dompdf_gen');
+		$data = [
+			'pasien' => $this->pasien_model->get_data()
+		];
+
+		$this->load->view('pasien/laporan_pdf',$data);
+		$paper_size ='A4';
+		$orientation = 'landscape';
+		$html = $this->output->get_output();
+		$this->dompdf->set_paper($paper_size,$orientation);
+
+
+		$this->dompdf->load_html($html);
+		$this->dompdf->render();
+		$this->dompdf->stream("laporan_pasien.pdf",array('Attachment'=>0));
 	}
 }

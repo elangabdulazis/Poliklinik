@@ -3,17 +3,6 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Dashboard</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
          <div class="card">
               <div class="card-header" style="background-color: aqua">
                 <h3 class="card-title">Data Dokter</h3>
@@ -25,11 +14,11 @@
                 </div>
               </div>
 
-              <div class="card-body">
+              <div class="card-body" style="background-color: #212529; color: white;">
               <div class="flash-data" data-flashdata="<?= $this->session->flashdata('flash');?>"></div>
                 <a href="<?= base_url()?>dokter/tambah" class="btn btn-danger mb-3">Tambah Data</a>
-                <button type="button" id="btncel" class="btn bg-gradient-success mb-3" >Export Excell</button>
-                <button type="button" class="btn bg-gradient-primary mb-3">Export Word</button>
+                <!-- <button type="button" id="btncel" class="btn bg-gradient-success mb-3" >Export Excell</button>
+                <button type="button" class="btn bg-gradient-primary mb-3">Export Word</button> -->
                <!--  <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">Extra large modal</button> -->
               
                 <table id="tabel_id" class="table table-bordered mt-3 mb-3" >
@@ -49,8 +38,8 @@
                       <?php foreach($dokter as $row) : ?>
                         <tr>
                           <th scope="row"><?= $i; ?></th>
-                          <td><?= $row["nama"] ?></td>
-                          <td><?= $row["spesialis"] ?></td>
+                          <td><?= $row["namadokter"] ?></td>
+                          <td><?= $row["namaspesialis"] ?></td>
                           <td><?= $row["noizin"] ?></td>
                           <td><?= $row["nohp"] ?></td>
                           <td><?= $row["tarif"] ?></td>
@@ -205,7 +194,6 @@ $(function(){
 });
 
 function submit(x){
-
     $.ajax({
           type     : 'POST',
           data     : 'kd_dokter='+x,
@@ -224,8 +212,7 @@ function submit(x){
             $("[name='kelurahan']").val(hasil[0].kelurahan);
             $("[name='email']").val(hasil[0].email);
             $("[name='password']").val(hasil[0].password);
-            $("[name='noizin']").val(hasil[0].email);
-            $("[name='tarif']").val(hasil[0].tarif);
+            $("[name='noizin']").val(hasil[0].noizin);
             $("[name='alamat']").val(hasil[0].alamat);
 
             
@@ -262,8 +249,7 @@ function submit(x){
             dataType : 'json',
             success  : function(hasil){
               console.log(hasil);
-              $("[name='tarif']").val(hasil[0].tarif);
-            
+              $("[name='tarif']").val(hasil[0].tarif);  
             }
 
         });

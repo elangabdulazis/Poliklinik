@@ -6,8 +6,11 @@ class Spesialis extends CI_Controller {
 	public function index()
 	{
 		$data['spesialis'] = $this->spesialis_model->get_data();
+		$data1['user'] = $this->db->get_where('user',['email'=>
+		$this->session->userdata('email')])->row_array();
+		
 		$this->load->model('spesialis_model');
-		$this->load->view('templates/header');
+		$this->load->view('templates/header',$data1);
 		$this->load->view('templates/sidebar');
 		$this->load->view('spesialis/v_view',$data);
 		$this->load->view('templates/footer');
@@ -38,12 +41,11 @@ class Spesialis extends CI_Controller {
 		echo json_encode($result);
 	}
 
-	public function hapus(){
-		$kd_spesialis = $this->input->post('kd_spesialis');
+	public function hapus($kd_spesialis){
 		$where = array('kd_spesialis' => $kd_spesialis);
 		$this->spesialis_model->hapus_data($where,'tbl_spesialis');
-		
-
+		$this->session->set_flashdata('flash','Dihapus');
+		redirect('spesialis/index');
 	}
 
 	public function edit(){
